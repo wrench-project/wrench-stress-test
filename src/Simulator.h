@@ -23,19 +23,9 @@ namespace wrench {
 
         int main(int argc, char **argv);
 
-        void setupSimulationPlatform(wrench::Simulation *simulation, unsigned long num_compute_nodes);
+        void setupSimulationPlatform(wrench::Simulation *simulation, unsigned long num_cs, unsigned long num_ss);
 
         wrench::Workflow *createWorkflow(std::string workflow_spec);
-
-        wrench::Workflow *createIndepWorkflow(std::vector<std::string> spec_tokens);
-
-        wrench::Workflow *createLevelsWorkflow(std::vector<std::string> spec_tokens);
-
-        wrench::Workflow *createDAXWorkflow(std::vector<std::string> spec_tokens);
-
-        wrench::WMS *
-        createWMS(std::string scheduler_spec, wrench::BatchService *batch_service, unsigned long max_num_jobs,
-                  std::string algorithm_name);
 
 
     };

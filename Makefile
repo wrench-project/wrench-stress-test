@@ -48,10 +48,10 @@ RM = /opt/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/casanova/Home/WRENCH/TASK_CLUSTERING/task_clustering_batch_simulator
+CMAKE_SOURCE_DIR = /Users/casanova/Home/PROJECTS/WORKFLOWS/WRENCH/wrench-stress-test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/casanova/Home/WRENCH/TASK_CLUSTERING/task_clustering_batch_simulator
+CMAKE_BINARY_DIR = /Users/casanova/Home/PROJECTS/WORKFLOWS/WRENCH/wrench-stress-test
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,9 +126,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/casanova/Home/WRENCH/TASK_CLUSTERING/task_clustering_batch_simulator/CMakeFiles /Users/casanova/Home/WRENCH/TASK_CLUSTERING/task_clustering_batch_simulator/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/casanova/Home/PROJECTS/WORKFLOWS/WRENCH/wrench-stress-test/CMakeFiles /Users/casanova/Home/PROJECTS/WORKFLOWS/WRENCH/wrench-stress-test/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/casanova/Home/WRENCH/TASK_CLUSTERING/task_clustering_batch_simulator/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/casanova/Home/PROJECTS/WORKFLOWS/WRENCH/wrench-stress-test/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -169,60 +169,6 @@ simulator/fast:
 	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/build
 .PHONY : simulator/fast
 
-src/LevelByLevelAlgorithm/LevelByLevelWMS.o: src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.o
-
-.PHONY : src/LevelByLevelAlgorithm/LevelByLevelWMS.o
-
-# target to build an object file
-src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.o:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.o
-.PHONY : src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.o
-
-src/LevelByLevelAlgorithm/LevelByLevelWMS.i: src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.i
-
-.PHONY : src/LevelByLevelAlgorithm/LevelByLevelWMS.i
-
-# target to preprocess a source file
-src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.i:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.i
-.PHONY : src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.i
-
-src/LevelByLevelAlgorithm/LevelByLevelWMS.s: src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.s
-
-.PHONY : src/LevelByLevelAlgorithm/LevelByLevelWMS.s
-
-# target to generate assembly for a file
-src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.s:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.s
-.PHONY : src/LevelByLevelAlgorithm/LevelByLevelWMS.cpp.s
-
-src/LevelByLevelAlgorithm/OngoingLevel.o: src/LevelByLevelAlgorithm/OngoingLevel.cpp.o
-
-.PHONY : src/LevelByLevelAlgorithm/OngoingLevel.o
-
-# target to build an object file
-src/LevelByLevelAlgorithm/OngoingLevel.cpp.o:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/LevelByLevelAlgorithm/OngoingLevel.cpp.o
-.PHONY : src/LevelByLevelAlgorithm/OngoingLevel.cpp.o
-
-src/LevelByLevelAlgorithm/OngoingLevel.i: src/LevelByLevelAlgorithm/OngoingLevel.cpp.i
-
-.PHONY : src/LevelByLevelAlgorithm/OngoingLevel.i
-
-# target to preprocess a source file
-src/LevelByLevelAlgorithm/OngoingLevel.cpp.i:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/LevelByLevelAlgorithm/OngoingLevel.cpp.i
-.PHONY : src/LevelByLevelAlgorithm/OngoingLevel.cpp.i
-
-src/LevelByLevelAlgorithm/OngoingLevel.s: src/LevelByLevelAlgorithm/OngoingLevel.cpp.s
-
-.PHONY : src/LevelByLevelAlgorithm/OngoingLevel.s
-
-# target to generate assembly for a file
-src/LevelByLevelAlgorithm/OngoingLevel.cpp.s:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/LevelByLevelAlgorithm/OngoingLevel.cpp.s
-.PHONY : src/LevelByLevelAlgorithm/OngoingLevel.cpp.s
-
 src/Simulator.o: src/Simulator.cpp.o
 
 .PHONY : src/Simulator.o
@@ -249,114 +195,6 @@ src/Simulator.s: src/Simulator.cpp.s
 src/Simulator.cpp.s:
 	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/Simulator.cpp.s
 .PHONY : src/Simulator.cpp.s
-
-src/StaticClusteringAlgorithms/ClusteredJob.o: src/StaticClusteringAlgorithms/ClusteredJob.cpp.o
-
-.PHONY : src/StaticClusteringAlgorithms/ClusteredJob.o
-
-# target to build an object file
-src/StaticClusteringAlgorithms/ClusteredJob.cpp.o:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/StaticClusteringAlgorithms/ClusteredJob.cpp.o
-.PHONY : src/StaticClusteringAlgorithms/ClusteredJob.cpp.o
-
-src/StaticClusteringAlgorithms/ClusteredJob.i: src/StaticClusteringAlgorithms/ClusteredJob.cpp.i
-
-.PHONY : src/StaticClusteringAlgorithms/ClusteredJob.i
-
-# target to preprocess a source file
-src/StaticClusteringAlgorithms/ClusteredJob.cpp.i:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/StaticClusteringAlgorithms/ClusteredJob.cpp.i
-.PHONY : src/StaticClusteringAlgorithms/ClusteredJob.cpp.i
-
-src/StaticClusteringAlgorithms/ClusteredJob.s: src/StaticClusteringAlgorithms/ClusteredJob.cpp.s
-
-.PHONY : src/StaticClusteringAlgorithms/ClusteredJob.s
-
-# target to generate assembly for a file
-src/StaticClusteringAlgorithms/ClusteredJob.cpp.s:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/StaticClusteringAlgorithms/ClusteredJob.cpp.s
-.PHONY : src/StaticClusteringAlgorithms/ClusteredJob.cpp.s
-
-src/StaticClusteringAlgorithms/StaticClusteringWMS.o: src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.o
-
-.PHONY : src/StaticClusteringAlgorithms/StaticClusteringWMS.o
-
-# target to build an object file
-src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.o:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.o
-.PHONY : src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.o
-
-src/StaticClusteringAlgorithms/StaticClusteringWMS.i: src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.i
-
-.PHONY : src/StaticClusteringAlgorithms/StaticClusteringWMS.i
-
-# target to preprocess a source file
-src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.i:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.i
-.PHONY : src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.i
-
-src/StaticClusteringAlgorithms/StaticClusteringWMS.s: src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.s
-
-.PHONY : src/StaticClusteringAlgorithms/StaticClusteringWMS.s
-
-# target to generate assembly for a file
-src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.s:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.s
-.PHONY : src/StaticClusteringAlgorithms/StaticClusteringWMS.cpp.s
-
-src/Util/WorkflowUtil.o: src/Util/WorkflowUtil.cpp.o
-
-.PHONY : src/Util/WorkflowUtil.o
-
-# target to build an object file
-src/Util/WorkflowUtil.cpp.o:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/Util/WorkflowUtil.cpp.o
-.PHONY : src/Util/WorkflowUtil.cpp.o
-
-src/Util/WorkflowUtil.i: src/Util/WorkflowUtil.cpp.i
-
-.PHONY : src/Util/WorkflowUtil.i
-
-# target to preprocess a source file
-src/Util/WorkflowUtil.cpp.i:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/Util/WorkflowUtil.cpp.i
-.PHONY : src/Util/WorkflowUtil.cpp.i
-
-src/Util/WorkflowUtil.s: src/Util/WorkflowUtil.cpp.s
-
-.PHONY : src/Util/WorkflowUtil.s
-
-# target to generate assembly for a file
-src/Util/WorkflowUtil.cpp.s:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/Util/WorkflowUtil.cpp.s
-.PHONY : src/Util/WorkflowUtil.cpp.s
-
-src/ZhangClusteringAlgorithm/ZhangClusteringWMS.o: src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.o
-
-.PHONY : src/ZhangClusteringAlgorithm/ZhangClusteringWMS.o
-
-# target to build an object file
-src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.o:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.o
-.PHONY : src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.o
-
-src/ZhangClusteringAlgorithm/ZhangClusteringWMS.i: src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.i
-
-.PHONY : src/ZhangClusteringAlgorithm/ZhangClusteringWMS.i
-
-# target to preprocess a source file
-src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.i:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.i
-.PHONY : src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.i
-
-src/ZhangClusteringAlgorithm/ZhangClusteringWMS.s: src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.s
-
-.PHONY : src/ZhangClusteringAlgorithm/ZhangClusteringWMS.s
-
-# target to generate assembly for a file
-src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.s:
-	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.s
-.PHONY : src/ZhangClusteringAlgorithm/ZhangClusteringWMS.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -398,27 +236,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... simulator"
-	@echo "... src/LevelByLevelAlgorithm/LevelByLevelWMS.o"
-	@echo "... src/LevelByLevelAlgorithm/LevelByLevelWMS.i"
-	@echo "... src/LevelByLevelAlgorithm/LevelByLevelWMS.s"
-	@echo "... src/LevelByLevelAlgorithm/OngoingLevel.o"
-	@echo "... src/LevelByLevelAlgorithm/OngoingLevel.i"
-	@echo "... src/LevelByLevelAlgorithm/OngoingLevel.s"
 	@echo "... src/Simulator.o"
 	@echo "... src/Simulator.i"
 	@echo "... src/Simulator.s"
-	@echo "... src/StaticClusteringAlgorithms/ClusteredJob.o"
-	@echo "... src/StaticClusteringAlgorithms/ClusteredJob.i"
-	@echo "... src/StaticClusteringAlgorithms/ClusteredJob.s"
-	@echo "... src/StaticClusteringAlgorithms/StaticClusteringWMS.o"
-	@echo "... src/StaticClusteringAlgorithms/StaticClusteringWMS.i"
-	@echo "... src/StaticClusteringAlgorithms/StaticClusteringWMS.s"
-	@echo "... src/Util/WorkflowUtil.o"
-	@echo "... src/Util/WorkflowUtil.i"
-	@echo "... src/Util/WorkflowUtil.s"
-	@echo "... src/ZhangClusteringAlgorithm/ZhangClusteringWMS.o"
-	@echo "... src/ZhangClusteringAlgorithm/ZhangClusteringWMS.i"
-	@echo "... src/ZhangClusteringAlgorithm/ZhangClusteringWMS.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
