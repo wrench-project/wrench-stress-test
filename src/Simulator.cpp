@@ -44,7 +44,7 @@ int Simulator::main(int argc, char **argv) {
 
   // Create the Storage Services
   std::set<StorageService *> storage_services;
-  for (unsigned int i=0; i < num_cs; i++) {
+  for (unsigned int i=0; i < num_ss; i++) {
     std::string hostname = "SS_host_" + std::to_string(i);
     storage_services.insert(simulation->add(new SimpleStorageService(hostname, pow(2,40), {}, {})));
   }
@@ -96,24 +96,16 @@ void Simulator::setupSimulationPlatform(Simulation *simulation, unsigned long nu
   xml += "   <zone id=\"AS0\" routing=\"Full\">\n";
 
   // CS hosts
-  xml += "      <zone id=\"zone_cluster_cs\" routing=\"Cluster\">\n";
   xml += "         <cluster id=\"cluster_cs\" prefix=\"CS_host_\" suffix=\"\" radical=\"0-";
-  xml += std::to_string(num_cs-1) + "\" speed=\"1f\" core=\"16\" bw=\"125GBps\" lat=\"0us\"/>\n";
-  xml += "         <router id=\"cluster_cs_router\"/>\n";
-  xml += "         <backbone id=\"cluster_cs_backbone\" bandwidth=\"100GBps\" latency=\"50us\"/>\n";
-  xml += "      </zone>\n";
+  xml += std::to_string(num_cs-1) + "\" speed=\"1f\" core=\"16\" bw=\"125GBps\" lat=\"0us\" router_id=\"cluster_cs_router\"/>\n";
 
   // SS hosts
-  xml += "      <zone id=\"zone_cluster_ss\" routing=\"Cluster\">\n";
   xml += "         <cluster id=\"cluster_ss\" prefix=\"SS_host_\" suffix=\"\" radical=\"0-";
-  xml += std::to_string(num_ss-1) + "\" speed=\"1f\" core=\"16\" bw=\"125GBps\" lat=\"0us\"/>\n";
-  xml += "         <router id=\"cluster_ss_router\"/>\n";
-  xml += "         <backbone id=\"cluster_ss_backbone\" bandwidth=\"100GBps\" latency=\"50us\"/>\n";
-  xml += "      </zone>\n";
+  xml += std::to_string(num_ss-1) + "\" speed=\"1f\" core=\"16\" bw=\"125GBps\" lat=\"0us\" router_id=\"cluster_ss_router\"/>\n";
 
   // Connecting CS cluster to SS cluster
   xml += "      <link id=\"wide_area_link\" bandwidth=\"10GBps\" latency=\"100ms\"/>\n";
-  xml += "      <zoneRoute src=\"zone_cluster_cs\" dst=\"zone_cluster_ss\" gw_src=\"cluster_cs_router\" gw_dst=\"cluster_ss_router\">\n";
+  xml += "      <zoneRoute src=\"cluster_cs\" dst=\"cluster_ss\" gw_src=\"cluster_cs_router\" gw_dst=\"cluster_ss_router\">\n";
   xml += "         <link_ctn id=\"wide_area_link\" />\n";
   xml += "      </zoneRoute>\n";
   xml += "   </zone>\n";
@@ -134,7 +126,8 @@ wrench::Workflow *Simulator::createWorkflow(unsigned long num_jobs) {
   Workflow *workflow = new Workflow();
   // One task per job, all independent
   for (unsigned int i=0; i < num_jobs; i++) {
-    workflow->addTask("task_" + std::to_string(i), 10.0, 1, 1, 1.0, 0);
+    WorkflowTask *task = workflow->addTask("task_" + std::to_string(i), 10.0, 1, 1, 1.0, 0);
+    task->addOutputFile(workflow->addFile("file_" + std::to_string(i), 10000));
   }
   return workflow;
 }
