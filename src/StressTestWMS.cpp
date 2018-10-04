@@ -68,6 +68,7 @@ namespace wrench {
               std::cerr << ".";
             }
             tasks_pending.erase(completed_task);
+            job_manager->forgetJob(real_event->standard_job);
             break;
           }
 
