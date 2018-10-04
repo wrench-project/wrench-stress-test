@@ -26,7 +26,7 @@ int Simulator::main(int argc, char **argv) {
           ((sscanf(argv[1], "%lu", &num_jobs) != 1) or (num_jobs < 1)) or
           ((sscanf(argv[2], "%lu", &num_cs) != 1)   or (num_cs < 1)) or
           ((sscanf(argv[3], "%lu", &num_ss) != 1)   or (num_ss < 1)) or
-          ((sscanf(argv[4], "%lu", &num_nps) != 1)  or (num_nps < 1))
+          ((sscanf(argv[4], "%lu", &num_nps) != 1))
           ) {
     std::cerr << "Usage: " << argv[0] << " <num jobs> <num compute services> <num storage services> <num network proximity services>" << "\n";
     exit(1);
@@ -51,7 +51,7 @@ int Simulator::main(int argc, char **argv) {
   // Create the Network Proximity Services
   std::set<NetworkProximityService *> network_proximity_services;
   for (unsigned int i=0; i < num_nps; i++) {
-    std::string hostname = "WMS_host";
+    std::string hostname = "CS_host_0";
     std::vector<std::string> participating_hosts;
     for (auto cs : compute_services) {
       participating_hosts.push_back(cs->getHostname());
@@ -64,22 +64,15 @@ int Simulator::main(int argc, char **argv) {
   }
 
   // Create a File Registry Service
-  FileRegistryService *file_registry_service = simulation->add(new FileRegistryService("WMS_host"));
+  FileRegistryService *file_registry_service = simulation->add(new FileRegistryService("CS_host_0"));
 
   // Create the WMS
-  WMS *wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services, file_registry_service, "WMS_host"));
+  WMS *wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services, file_registry_service, "CS_host_0"));
 
 
-  #if 0
   // Create the Workflow
-  Workflow *workflow = nullptr;
-  try {
-    workflow = createWorkflow(argv[4]);
-  } catch (std::invalid_argument &e) {
-    std::cerr << "Cannot create workflow: " << e.what() << "\n";
-    exit(1);
-  }
-  wms->addWorkflow(workflow, workflow_start_time);
+  Workflow *workflow = createWorkflow(num_jobs);
+  wms->addWorkflow(workflow, 0);
 
   // Launch the simulation
   try {
@@ -90,16 +83,6 @@ int Simulator::main(int argc, char **argv) {
     exit(1);
   }
   WRENCH_INFO("Simulation done!");
-
-
-  std::cout << "MAKESPAN=" << (workflow->getCompletionDate() - workflow_start_time) << "\n";
-  std::cout << "NUM PILOT JOB EXPIRATIONS=" << this->num_pilot_job_expirations_with_remaining_tasks_to_do << "\n";
-  std::cout << "TOTAL QUEUE WAIT SECONDS=" << this->total_queue_wait_time << "\n";
-  std::cout << "USED NODE SECONDS=" << this->used_node_seconds << "\n";
-  std::cout << "WASTED NODE SECONDS=" << this->wasted_node_seconds << "\n";
-  std::cout << "CSV LOG FILE=" << csv_batch_log << "\n";
-
-#endif
 
   return 0;
 }
@@ -133,7 +116,7 @@ void Simulator::setupSimulationPlatform(Simulation *simulation, unsigned long nu
   xml += "      <zoneRoute src=\"zone_cluster_cs\" dst=\"zone_cluster_ss\" gw_src=\"cluster_cs_router\" gw_dst=\"cluster_ss_router\">\n";
   xml += "         <link_ctn id=\"wide_area_link\" />\n";
   xml += "      </zoneRoute>\n";
-                                                                                                                  xml += "   </zone>\n";
+  xml += "   </zone>\n";
   xml += "</platform>\n";
 
   FILE *platform_file = fopen("/tmp/platform.xml", "w");
@@ -147,50 +130,11 @@ void Simulator::setupSimulationPlatform(Simulation *simulation, unsigned long nu
   }
 }
 
-Workflow *Simulator::createWorkflow(std::string workflow_spec) {
-
-  #if 0
-  std::istringstream ss(workflow_spec);
-  std::string token;
-  std::vector<std::string> tokens;
-
-  while(std::getline(ss, token, ':')) {
-    tokens.push_back(token);
+wrench::Workflow *Simulator::createWorkflow(unsigned long num_jobs) {
+  Workflow *workflow = new Workflow();
+  // One task per job, all independent
+  for (unsigned int i=0; i < num_jobs; i++) {
+    workflow->addTask("task_" + std::to_string(i), 10.0, 1, 1, 1.0, 0);
   }
-
-  if (tokens[0] == "indep") {
-    if (tokens.size() != 5) {
-      throw std::invalid_argument("createWorkflow(): Invalid workflow specification " + workflow_spec);
-    }
-    try {
-      return createIndepWorkflow(tokens);
-    } catch (std::invalid_argument &e) {
-      throw;
-    }
-
-  } else if (tokens[0] == "levels") {
-    if ((tokens.size() == 2) or (tokens.size() - 2) % 3) {
-      throw std::invalid_argument("createWorkflow(): Invalid workflow specification " + workflow_spec);
-    }
-    try {
-      return createLevelsWorkflow(tokens);
-    } catch (std::invalid_argument &e) {
-      throw;
-    }
-
-  } else if (tokens[0] == "dax") {
-    if (tokens.size() != 2) {
-      throw std::invalid_argument("createWorkflow(): Invalid workflow specification " + workflow_spec);
-    }
-    try {
-      return createDAXWorkflow(tokens);
-    } catch (std::invalid_argument &e) {
-      throw;
-    }
-
-  } else {
-    throw std::invalid_argument("createWorkflow(): Unknown workflow type " + tokens[0]);
-  }
-  #endif
-  return nullptr;
+  return workflow;
 }

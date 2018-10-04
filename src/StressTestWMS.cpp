@@ -14,8 +14,25 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(stress_test_wms, "Log category for Stress Test WMS"
 namespace wrench {
 
   int StressTestWMS::main() {
+     WRENCH_INFO("New WMS starting");
+
+    std::shared_ptr<JobManager> job_manager = this->createJobManager();
 
 
+    std::set<WorkflowTask *> tasks_to_do;
+    for (auto t : this->getWorkflow()->getTasks()) {
+      tasks_to_do.insert(t);
+    }
+    std::set<WorkflowTask *> pending_tasks;
+
+    while (tasks_to_do.empty()) {
+
+    }
+
+
+
+
+    return 0;
   }
 
 };

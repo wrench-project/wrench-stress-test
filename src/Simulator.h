@@ -25,7 +25,7 @@ namespace wrench {
 
         void setupSimulationPlatform(wrench::Simulation *simulation, unsigned long num_cs, unsigned long num_ss);
 
-        wrench::Workflow *createWorkflow(std::string workflow_spec);
+        wrench::Workflow *createWorkflow(unsigned long num_jobs);
 
 
     };
