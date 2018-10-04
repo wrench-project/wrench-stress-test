@@ -2,8 +2,9 @@
 #include <iostream>
 #include <wrench-dev.h>
 #include "Simulator.h"
+#include "StressTestWMS.h"
 
-XBT_LOG_NEW_DEFAULT_CATEGORY(task_clustering_simulator, "Log category for Stress Test Simulator");
+XBT_LOG_NEW_DEFAULT_CATEGORY(stress_test_simulator, "Log category for Stress Test Simulator");
 
 using namespace wrench;
 
@@ -20,16 +21,14 @@ int Simulator::main(int argc, char **argv) {
   unsigned long num_cs;
   unsigned long num_ss;
   unsigned long num_nps;
-  unsigned long num_frs;
 
-  if ((argc != 6) or
+  if ((argc != 5) or
           ((sscanf(argv[1], "%lu", &num_jobs) != 1) or (num_jobs < 1)) or
-          ((sscanf(argv[2], "%lu", &num_cs) != 1) or (num_cs < 1)) or
-          ((sscanf(argv[3], "%lu", &num_ss) != 1) or (num_ss < 1)) or
-          ((sscanf(argv[4], "%lu", &num_nps) != 1) or (num_nps < 1)) or
-          ((sscanf(argv[4], "%lu", &num_frs) != 1) or (num_frs < 1))
+          ((sscanf(argv[2], "%lu", &num_cs) != 1)   or (num_cs < 1)) or
+          ((sscanf(argv[3], "%lu", &num_ss) != 1)   or (num_ss < 1)) or
+          ((sscanf(argv[4], "%lu", &num_nps) != 1)  or (num_nps < 1))
           ) {
-    std::cerr << "Usage: " << argv[0] << " <num jobs> <num compute services> <num storage services> <num network proximity services> <num file registry services>" << "\n";
+    std::cerr << "Usage: " << argv[0] << " <num jobs> <num compute services> <num storage services> <num network proximity services>" << "\n";
     exit(1);
   }
 
@@ -37,37 +36,41 @@ int Simulator::main(int argc, char **argv) {
   setupSimulationPlatform(simulation, num_cs, num_ss);
 
   // Create the Compute Services
-  std::vector<ComputeService *> compute_services;
+  std::set<ComputeService *> compute_services;
   for (unsigned int i=0; i < num_cs; i++) {
     std::string hostname = "CS_host_" + std::to_string(i);
-    compute_services.push_back(simulation->add(new MultihostMulticoreComputeService(hostname, {hostname}, 0, {}, {})));
+    compute_services.insert(simulation->add(new MultihostMulticoreComputeService(hostname, {hostname}, 0, {}, {})));
   }
 
   // Create the Storage Services
-  std::vector<StorageService *> storage_services;
+  std::set<StorageService *> storage_services;
   for (unsigned int i=0; i < num_cs; i++) {
     std::string hostname = "SS_host_" + std::to_string(i);
-    storage_services.push_back(simulation->add(new SimpleStorageService(hostname, pow(2,40), {}, {})));
+    storage_services.insert(simulation->add(new SimpleStorageService(hostname, pow(2,40), {}, {})));
+  }
+  // Create the Network Proximity Services
+  std::set<NetworkProximityService *> network_proximity_services;
+  for (unsigned int i=0; i < num_nps; i++) {
+    std::string hostname = "WMS_host";
+    std::vector<std::string> participating_hosts;
+    for (auto cs : compute_services) {
+      participating_hosts.push_back(cs->getHostname());
+    }
+    for (auto ss : storage_services) {
+      participating_hosts.push_back(ss->getHostname());
+    }
+
+    network_proximity_services.insert(simulation->add(new NetworkProximityService(hostname, participating_hosts, {}, {})));
   }
 
-#if 0
+  // Create a File Registry Service
+  FileRegistryService *file_registry_service = simulation->add(new FileRegistryService("WMS_host"));
+
   // Create the WMS
-  WMS *wms = nullptr;
-  try {
-    wms = createWMS("Login", batch_service, max_num_jobs, scheduler_spec);
-  } catch (std::invalid_argument &e) {
-    std::cerr << "Cannot instantiate WMS: " << e.what() << "\n";
-    exit(1);
-  }
-
-  try {
-    simulation->add(wms);
-  } catch (std::invalid_argument &e) {
-    std::cerr << "Cannot add WMS to simulation: " << e.what() << "\n";
-    exit(1);
-  }
+  WMS *wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services, file_registry_service, "WMS_host"));
 
 
+  #if 0
   // Create the Workflow
   Workflow *workflow = nullptr;
   try {

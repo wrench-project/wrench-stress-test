@@ -196,6 +196,33 @@ src/Simulator.cpp.s:
 	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/Simulator.cpp.s
 .PHONY : src/Simulator.cpp.s
 
+src/StressTestWMS.o: src/StressTestWMS.cpp.o
+
+.PHONY : src/StressTestWMS.o
+
+# target to build an object file
+src/StressTestWMS.cpp.o:
+	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/StressTestWMS.cpp.o
+.PHONY : src/StressTestWMS.cpp.o
+
+src/StressTestWMS.i: src/StressTestWMS.cpp.i
+
+.PHONY : src/StressTestWMS.i
+
+# target to preprocess a source file
+src/StressTestWMS.cpp.i:
+	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/StressTestWMS.cpp.i
+.PHONY : src/StressTestWMS.cpp.i
+
+src/StressTestWMS.s: src/StressTestWMS.cpp.s
+
+.PHONY : src/StressTestWMS.s
+
+# target to generate assembly for a file
+src/StressTestWMS.cpp.s:
+	$(MAKE) -f CMakeFiles/simulator.dir/build.make CMakeFiles/simulator.dir/src/StressTestWMS.cpp.s
+.PHONY : src/StressTestWMS.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -239,6 +266,9 @@ help:
 	@echo "... src/Simulator.o"
 	@echo "... src/Simulator.i"
 	@echo "... src/Simulator.s"
+	@echo "... src/StressTestWMS.o"
+	@echo "... src/StressTestWMS.i"
+	@echo "... src/StressTestWMS.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

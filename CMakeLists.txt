@@ -12,6 +12,8 @@ set(SOURCE_FILES
         src/main.cpp
         src/Simulator.cpp
         src/Simulator.h
+        src/StressTestWMS.cpp
+        src/StressTestWMS.h
         )
 
 # wrench library and dependencies
