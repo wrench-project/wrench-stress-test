@@ -39,7 +39,7 @@ int Simulator::main(int argc, char **argv) {
   std::set<ComputeService *> compute_services;
   for (unsigned int i=0; i < num_cs; i++) {
     std::string hostname = "CS_host_" + std::to_string(i);
-    compute_services.insert(simulation->add(new MultihostMulticoreComputeService(hostname, {hostname}, 0, {}, {})));
+    compute_services.insert(simulation->add(new BareMetalComputeService(hostname, {hostname}, 0, {}, {})));
   }
 
   // Create the Storage Services
