@@ -1,20 +1,9 @@
-#SET(CMAKE_C_FLAGS_DEBUG "-D_DEBUG")
-cmake_minimum_required(VERSION 3.2)
-message(STATUS "Cmake version ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}")
-project(task_clustering_batch_simulator)
-add_definitions("-Wall -Wno-unused-variable -Wno-unused-private-field")
-set(CMAKE_CXX_STANDARD 11)
+cmake_minimum_required(VERSION 3.14)
+project(wrench_stress_test)
 
-# include directories for dependencies and WRENCH libraries
-include_directories(src/ /usr/local/include /usr/local/include/wrench /opt/local/include/)
-# source files
-set(SOURCE_FILES
-        src/main.cpp
-        src/Simulator.cpp
-        src/Simulator.h
-        src/StressTestWMS.cpp
-        src/StressTestWMS.h
-        )
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(src /usr/include /usr/local/include /opt/local/include)
 
 # wrench library and dependencies
 find_library(WRENCH_LIBRARY NAMES wrench)
@@ -23,10 +12,15 @@ find_library(PUGIXML_LIBRARY NAMES pugixml)
 find_library(LEMON_LIBRARY NAMES emon)
 find_library(ZMQ_LIBRARY NAMES zmq)
 
-# generating the executable
-add_executable(simulator ${SOURCE_FILES})
+add_executable(wrench_stress_test
+        src/main.cpp
+        src/Simulator.cpp
+        src/Simulator.h
+        src/StressTestWMS.cpp
+        src/StressTestWMS.h
+        CMakeLists.txt)
 
-target_link_libraries(simulator
+target_link_libraries(wrench_stress_test
         ${WRENCH_LIBRARY}
         ${SIMGRID_LIBRARY}
         ${PUGIXML_LIBRARY}
@@ -35,5 +29,4 @@ target_link_libraries(simulator
         )
 
 
-install(TARGETS simulator DESTINATION bin)
 
