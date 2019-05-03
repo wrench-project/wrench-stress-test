@@ -18,10 +18,10 @@ namespace wrench {
 
     public:
 
-        StressTestWMS(const std::set<ComputeService *> &compute_services,
-                      const std::set<StorageService *> &storage_services,
-                      const std::set<NetworkProximityService *> &network_proximity_services,
-                      FileRegistryService *file_registry_service,
+        StressTestWMS(const std::set<std::shared_ptr<ComputeService>> &compute_services,
+                      const std::set<std::shared_ptr<StorageService>> &storage_services,
+                      const std::set<std::shared_ptr<NetworkProximityService>> &network_proximity_services,
+                      std::shared_ptr<FileRegistryService> file_registry_service,
                       const std::string &hostname) :
                 WMS(nullptr, nullptr, compute_services, storage_services, network_proximity_services, file_registry_service, hostname, "tresstestwms") {}
 

@@ -15,71 +15,65 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(stress_test_wms, "Log category for Stress Test WMS"
 namespace wrench {
 
     int StressTestWMS::main() {
-      WRENCH_INFO("New WMS starting");
+        WRENCH_INFO("New WMS starting");
 
-      std::shared_ptr<JobManager> job_manager = this->createJobManager();
+        std::shared_ptr<JobManager> job_manager = this->createJobManager();
 
 
-      std::set<WorkflowTask *> tasks_to_do;
-      for (auto t : this->getWorkflow()->getTasks()) {
-        tasks_to_do.insert(t);
-      }
-      std::set<WorkflowTask *> tasks_pending;
-
-      std::set<ComputeService *> compute_services = this->getAvailableComputeServices();
-      std::set<StorageService *> storage_services = this->getAvailableStorageServices();
-
-      unsigned long max_num_pending_tasks = 10;
-
-      WRENCH_INFO("%lu tasks to run", tasks_to_do.size());
-
-      while ((not tasks_to_do.empty()) or (not tasks_pending.empty())) {
-
-        while ((tasks_to_do.size() > 0) and (tasks_pending.size() < max_num_pending_tasks)) {
-
-          WRENCH_INFO("Looking at scheduling another task");
-          WorkflowTask *to_submit = *(tasks_to_do.begin());
-          tasks_to_do.erase(to_submit);
-          tasks_pending.insert(to_submit);
-
-          WorkflowFile *output_file = *(to_submit->getOutputFiles().begin());
-          // Pick a random compute
-          auto cs_it(compute_services.begin());
-          advance(cs_it, rand() % compute_services.size());
-          auto target_cs = *cs_it;
-          // Pick a random storage_service
-          auto ss_it(storage_services.begin());
-          advance(ss_it, rand() % storage_services.size());
-          auto target_ss = *ss_it;
-
-          StandardJob *job = job_manager->createStandardJob(to_submit, {std::make_pair(output_file, target_ss)});
-          job_manager->submitJob(job, target_cs);
-
+        std::set<WorkflowTask *> tasks_to_do;
+        for (auto t : this->getWorkflow()->getTasks()) {
+            tasks_to_do.insert(t);
         }
+        std::set<WorkflowTask *> tasks_pending;
 
-        std::unique_ptr<wrench::WorkflowExecutionEvent> event;
-        event = this->getWorkflow()->waitForNextExecutionEvent();
-        switch (event->type) {
-          case wrench::WorkflowExecutionEvent::STANDARD_JOB_COMPLETION: {
-            auto real_event = dynamic_cast<wrench::StandardJobCompletedEvent *>(event.get());
-            WorkflowTask *completed_task = *(real_event->standard_job->getTasks().begin());
-            WRENCH_INFO("Task %s has completed", completed_task->getID().c_str());
-            if (tasks_to_do.size() % 10 == 0) {
-              std::cerr << ".";
+        std::set<std::shared_ptr<ComputeService>> compute_services = this->getAvailableComputeServices<ComputeService>();
+        std::set<std::shared_ptr<StorageService>> storage_services = this->getAvailableStorageServices();
+
+        unsigned long max_num_pending_tasks = 10;
+
+        WRENCH_INFO("%lu tasks to run", tasks_to_do.size());
+
+        while ((not tasks_to_do.empty()) or (not tasks_pending.empty())) {
+
+            while ((tasks_to_do.size() > 0) and (tasks_pending.size() < max_num_pending_tasks)) {
+
+                WRENCH_INFO("Looking at scheduling another task");
+                WorkflowTask *to_submit = *(tasks_to_do.begin());
+                tasks_to_do.erase(to_submit);
+                tasks_pending.insert(to_submit);
+
+                WorkflowFile *output_file = *(to_submit->getOutputFiles().begin());
+                // Pick a random compute
+                auto cs_it(compute_services.begin());
+                advance(cs_it, rand() % compute_services.size());
+                auto target_cs = *cs_it;
+                // Pick a random storage_service
+                auto ss_it(storage_services.begin());
+                advance(ss_it, rand() % storage_services.size());
+                auto target_ss = *ss_it;
+
+                StandardJob *job = job_manager->createStandardJob(to_submit, {std::make_pair(output_file, target_ss)});
+                job_manager->submitJob(job, target_cs);
+
             }
-            tasks_pending.erase(completed_task);
-            job_manager->forgetJob(real_event->standard_job);
-            break;
-          }
 
-          default:
-            throw std::runtime_error("Unexpected Event!");
+            std::shared_ptr <wrench::WorkflowExecutionEvent> event;
+            event = this->getWorkflow()->waitForNextExecutionEvent();
+            auto real_event = dynamic_cast<wrench::StandardJobCompletedEvent *>(event.get());
+            if (real_event) {
+                WorkflowTask *completed_task = *(real_event->standard_job->getTasks().begin());
+                WRENCH_INFO("Task %s has completed", completed_task->getID().c_str());
+                if (tasks_to_do.size() % 10 == 0) {
+                    std::cerr << ".";
+                }
+                tasks_pending.erase(completed_task);
+                job_manager->forgetJob(real_event->standard_job);
+            } else {
+                throw std::runtime_error("Unexpected Event!");
+            }
         }
-      }
 
-
-
-      return 0;
+        return 0;
     }
 
 };

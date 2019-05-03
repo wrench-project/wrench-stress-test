@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <wrench-dev.h>
+
 #include "Simulator.h"
 #include "StressTestWMS.h"
 
@@ -36,20 +37,20 @@ int Simulator::main(int argc, char **argv) {
   setupSimulationPlatform(simulation, num_cs, num_ss);
 
   // Create the Compute Services
-  std::set<ComputeService *> compute_services;
+  std::set<std::shared_ptr<ComputeService>> compute_services;
   for (unsigned int i=0; i < num_cs; i++) {
     std::string hostname = "CS_host_" + std::to_string(i);
-    compute_services.insert(simulation->add(new BareMetalComputeService(hostname, {hostname}, 0, {}, {})));
+    compute_services.insert(simulation->add<ComputeService>(new BareMetalComputeService(hostname, {hostname}, 0, {}, {})));
   }
 
   // Create the Storage Services
-  std::set<StorageService *> storage_services;
+  std::set<std::shared_ptr<StorageService>> storage_services;
   for (unsigned int i=0; i < num_ss; i++) {
     std::string hostname = "SS_host_" + std::to_string(i);
-    storage_services.insert(simulation->add(new SimpleStorageService(hostname, pow(2,40), {}, {})));
+    storage_services.insert(simulation->add<StorageService>(new SimpleStorageService(hostname, pow(2,40), {}, {})));
   }
   // Create the Network Proximity Services
-  std::set<NetworkProximityService *> network_proximity_services;
+  std::set<std::shared_ptr<NetworkProximityService>> network_proximity_services;
   for (unsigned int i=0; i < num_nps; i++) {
     std::string hostname = "CS_host_0";
     std::vector<std::string> participating_hosts;
@@ -64,10 +65,10 @@ int Simulator::main(int argc, char **argv) {
   }
 
   // Create a File Registry Service
-  FileRegistryService *file_registry_service = simulation->add(new FileRegistryService("CS_host_0"));
+  std::shared_ptr<FileRegistryService> file_registry_service = simulation->add(new FileRegistryService("CS_host_0"));
 
   // Create the WMS
-  WMS *wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services, file_registry_service, "CS_host_0"));
+  std::shared_ptr<WMS> wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services, file_registry_service, "CS_host_0"));
 
 
   // Create the Workflow
