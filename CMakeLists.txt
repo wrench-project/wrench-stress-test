@@ -10,7 +10,6 @@ find_library(WRENCH_LIBRARY NAMES wrench)
 find_library(SIMGRID_LIBRARY NAMES simgrid)
 find_library(PUGIXML_LIBRARY NAMES pugixml)
 find_library(LEMON_LIBRARY NAMES emon)
-find_library(ZMQ_LIBRARY NAMES zmq)
 
 add_executable(wrench_stress_test
         src/main.cpp
@@ -25,7 +24,6 @@ target_link_libraries(wrench_stress_test
         ${SIMGRID_LIBRARY}
         ${PUGIXML_LIBRARY}
         ${LEMON_LIBRARY}
-        ${ZMQ_LIBRARY}
         )
 
 

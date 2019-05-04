@@ -64,7 +64,7 @@ namespace wrench {
                 WorkflowTask *completed_task = *(real_event->standard_job->getTasks().begin());
                 WRENCH_INFO("Task %s has completed", completed_task->getID().c_str());
                 if (tasks_to_do.size() % 10 == 0) {
-                    std::cerr << ".";
+                    //std::cerr << ".";
                 }
                 tasks_pending.erase(completed_task);
                 job_manager->forgetJob(real_event->standard_job);
