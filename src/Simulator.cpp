@@ -40,7 +40,7 @@ int Simulator::main(int argc, char **argv) {
     std::set<std::shared_ptr<ComputeService>> compute_services;
     for (unsigned int i=0; i < num_cs; i++) {
         std::string hostname = "CS_host_" + std::to_string(i);
-        compute_services.insert(simulation->add<ComputeService>(new BareMetalComputeService(hostname, {hostname}, 0, {}, {})));
+        compute_services.insert(simulation->add<ComputeService>(new BareMetalComputeService(hostname, {hostname}, "", {}, {})));
     }
 
     // Create the Storage Services
@@ -120,13 +120,13 @@ void Simulator::setupSimulationPlatform(Simulation *simulation, unsigned long nu
     xml += "    <link id=\"wide_area_link\" bandwidth=\"10GBps\" latency=\"100ms\"/>\n";
 
     for (int i=0; i < num_cs; i++) {
-        for (int j=0; j < num_cs; j++) {
+        for (int j=i; j < num_cs; j++) {
             xml += "    <route src=\"CS_host_" + std::to_string(i) + "\" dst=\"CS_host_" + std::to_string(j) + "\"> <link_ctn id=\"wide_area_link\"/> </route>\n";
         }
     }
 
     for (int i=0; i < num_ss; i++) {
-        for (int j=0; j < num_ss; j++) {
+        for (int j=i; j < num_ss; j++) {
             xml += "    <route src=\"SS_host_" + std::to_string(i) + "\" dst=\"SS_host_" + std::to_string(j) + "\"> <link_ctn id=\"wide_area_link\"/> </route>\n";
         }
     }
