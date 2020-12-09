@@ -67,7 +67,7 @@ namespace wrench {
                     //std::cerr << ".";
                 }
                 tasks_pending.erase(completed_task);
-                job_manager->forgetJob(real_event->standard_job);
+                //job_manager->forgetJob(real_event->standard_job);
             } else {
                 throw std::runtime_error("Unexpected Event!");
             }
