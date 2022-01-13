@@ -23,7 +23,7 @@ namespace wrench {
 
         int main(int argc, char **argv);
 
-        void setupSimulationPlatform(wrench::Simulation *simulation, unsigned long num_cs, unsigned long num_ss);
+        void setupSimulationPlatform(shared_ptr<wrench::Simulation> simulation, unsigned long num_cs, unsigned long num_ss);
 
         wrench::Workflow *createWorkflow(unsigned long num_jobs);
 

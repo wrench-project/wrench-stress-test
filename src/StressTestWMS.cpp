@@ -26,8 +26,8 @@ namespace wrench {
         }
         std::set<WorkflowTask *> tasks_pending;
 
-        std::set<std::shared_ptr<ComputeService>> compute_services = this->getAvailableComputeServices<ComputeService>();
-        std::set<std::shared_ptr<StorageService>> storage_services = this->getAvailableStorageServices();
+        //REMOVE//std::set<std::shared_ptr<ComputeService>> compute_services = this->getAvailableComputeServices<ComputeService>();
+        //REMOVE//std::set<std::shared_ptr<StorageService>> storage_services = this->getAvailableStorageServices();
 
         unsigned long max_num_pending_tasks = 10;
 

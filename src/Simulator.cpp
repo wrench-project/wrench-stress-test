@@ -14,7 +14,7 @@ unsigned long Simulator::sequence_number = 0;
 int Simulator::main(int argc, char **argv) {
 
     // Create and initialize a simulation
-    auto simulation = new wrench::Simulation();
+    auto simulation = wrench::Simulation::createSimulation();
     simulation->init(&argc, argv);
 
     // Parse command-line arguments
@@ -68,7 +68,7 @@ int Simulator::main(int argc, char **argv) {
     std::shared_ptr<FileRegistryService> file_registry_service = simulation->add(new FileRegistryService("CS_host_0"));
 
     // Create the WMS
-    std::shared_ptr<WMS> wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services, file_registry_service, "CS_host_0"));
+    std::shared_ptr<ExecutionController> wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services, file_registry_service, "CS_host_0"));
 
 
     // Create the Workflow
