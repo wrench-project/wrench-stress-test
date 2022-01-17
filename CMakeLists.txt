@@ -11,7 +11,7 @@ find_package(SimGrid REQUIRED)
 
 # wrench library and dependencies
 find_library(WRENCH_LIBRARY NAMES wrench)
-find_library(SIMGRID_LIBRARY NAMES simgrid)
+find_library(SimGrid_LIBRARY NAMES simgrid)
 find_library(PUGIXML_LIBRARY NAMES pugixml)
 
 add_executable(wrench_stress_test
@@ -24,7 +24,7 @@ add_executable(wrench_stress_test
 
 target_link_libraries(wrench_stress_test
         ${WRENCH_LIBRARY}
-        ${SIMGRID_LIBRARY}
+        ${SimGrid_LIBRARY}
         ${PUGIXML_LIBRARY}
         )
 
