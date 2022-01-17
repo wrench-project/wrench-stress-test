@@ -5,14 +5,14 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
 
-include_directories(src /usr/include /usr/local/include /opt/local/include ${SimGrid_INCLUDE_DIR})
-
 find_package(SimGrid REQUIRED)
 
 # wrench library and dependencies
 find_library(WRENCH_LIBRARY NAMES wrench)
 find_library(SimGrid_LIBRARY NAMES simgrid)
 find_library(PUGIXML_LIBRARY NAMES pugixml)
+
+include_directories(src /usr/include /usr/local/include /opt/local/include ${SimGrid_INCLUDE_DIR})
 
 add_executable(wrench_stress_test
         src/main.cpp
