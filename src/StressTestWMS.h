@@ -22,12 +22,14 @@ class StressTestWMS : public ExecutionController {
         StressTestWMS(const std::set<std::shared_ptr<ComputeService>> &compute_services,
                       const std::set<std::shared_ptr<StorageService>> &storage_services,
                       const std::set<std::shared_ptr<NetworkProximityService>> &network_proximity_services,
+                      std::shared_ptr<Workflow> &workflow,
                       std::shared_ptr<FileRegistryService> file_registry_service,
                       const std::string &hostname) :
                 ExecutionController(hostname,"stresstestwms"),
                 compute_services(compute_services),
                 storage_services(storage_services),
                 network_services(network_proximity_services),
+                workflow(workflow),
                 file_registry_service(file_registry_service){}
 
         int main() override;
@@ -37,9 +39,8 @@ class StressTestWMS : public ExecutionController {
         const std::set<std::shared_ptr<StorageService>> &storage_services;
         const std::set<std::shared_ptr<NetworkProximityService>> &network_services;
         const std::shared_ptr<FileRegistryService> file_registry_service;
-
-
-    };
+        const shared_ptr<Workflow> &workflow;
+};
 
 };
 
