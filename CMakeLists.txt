@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
 
-include_directories(src /usr/include /usr/local/include /opt/local/include)
+include_directories(src /usr/include /usr/local/include /opt/local/include ${SimGrid_INCLUDE_DIR})
 
 find_package(SimGrid REQUIRED)
 
