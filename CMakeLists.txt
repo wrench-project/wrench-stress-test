@@ -9,7 +9,6 @@ include_directories(src /usr/include /usr/local/include /opt/local/include)
 
 find_package(SimGrid REQUIRED)
 
-
 # wrench library and dependencies
 find_library(WRENCH_LIBRARY NAMES wrench)
 find_library(SIMGRID_LIBRARY NAMES simgrid)
