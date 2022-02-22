@@ -21,7 +21,7 @@ find_library(WRENCH_LIBRARY NAMES wrench)
 find_library(SIMGRID_LIBRARY NAMES simgrid)
 find_library(PUGIXML_LIBRARY NAMES pugixml)
 find_library(LEMON_LIBRARY NAMES emon)
-find_library(ZMQ_LIBRARY NAMES zmq)
+#find_library(ZMQ_LIBRARY NAMES zmq)
 
 # generating the executable
 add_executable(simulator ${SOURCE_FILES})
@@ -31,7 +31,7 @@ target_link_libraries(simulator
         ${SIMGRID_LIBRARY}
         ${PUGIXML_LIBRARY}
         ${LEMON_LIBRARY}
-        ${ZMQ_LIBRARY}
+        #        ${ZMQ_LIBRARY}
         )
 
 
