@@ -155,7 +155,7 @@ wrench::Workflow *Simulator::createWorkflow(unsigned long num_jobs) {
     Workflow *workflow = new Workflow();
     // One task per job, all independent
     for (unsigned int i=0; i < num_jobs; i++) {
-        WorkflowTask *task = workflow->addTask("task_" + std::to_string(i), 10.0, 1, 1, 1.0);
+        WorkflowTask *task = workflow->addTask("task_" + std::to_string(i), 10.0, 1, 1, 1.0, 0.0);
         task->addOutputFile(workflow->addFile("file_" + std::to_string(i), 10000));
     }
     return workflow;
