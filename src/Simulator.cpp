@@ -120,13 +120,13 @@ void Simulator::setupSimulationPlatform(Simulation *simulation, unsigned long nu
     xml += "    <link id=\"wide_area_link\" bandwidth=\"10GBps\" latency=\"100ms\"/>\n";
 
     for (int i=0; i < num_cs; i++) {
-        for (int j=i; j < num_cs; j++) {
+        for (int j=i+1; j < num_cs; j++) {
             xml += "    <route src=\"CS_host_" + std::to_string(i) + "\" dst=\"CS_host_" + std::to_string(j) + "\"> <link_ctn id=\"wide_area_link\"/> </route>\n";
         }
     }
 
     for (int i=0; i < num_ss; i++) {
-        for (int j=i; j < num_ss; j++) {
+        for (int j=i+1; j < num_ss; j++) {
             xml += "    <route src=\"SS_host_" + std::to_string(i) + "\" dst=\"SS_host_" + std::to_string(j) + "\"> <link_ctn id=\"wide_area_link\"/> </route>\n";
         }
     }
