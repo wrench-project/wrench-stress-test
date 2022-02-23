@@ -72,9 +72,9 @@ int Simulator::main(int argc, char **argv) {
     // Create the WMS
     std::shared_ptr<ExecutionController> wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services,workflow, file_registry_service, "CS_host_0"));
 
-
-    // Create the Workflow
-
+    simulation->getOutput().enableWorkflowTaskTimestamps(true);
+    simulation->getOutput().enableFileReadWriteCopyTimestamps(true);
+    simulation->getOutput().enableDiskTimestamps(true);
 
     // Launch the simulation
     try {
