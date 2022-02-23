@@ -74,7 +74,6 @@ int Simulator::main(int argc, char **argv) {
 
     simulation->getOutput().enableWorkflowTaskTimestamps(true);
     simulation->getOutput().enableFileReadWriteCopyTimestamps(true);
-    simulation->getOutput().enableDiskTimestamps(true);
 
     // Launch the simulation
     try {
