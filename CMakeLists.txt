@@ -8,7 +8,6 @@ include_directories(src /usr/include /usr/local/include /opt/local/include)
 # wrench library and dependencies
 find_library(WRENCH_LIBRARY NAMES wrench)
 find_library(SIMGRID_LIBRARY NAMES simgrid)
-find_library(PUGIXML_LIBRARY NAMES pugixml)
 
 add_executable(wrench_stress_test
         src/main.cpp
