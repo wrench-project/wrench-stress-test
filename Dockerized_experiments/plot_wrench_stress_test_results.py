@@ -37,11 +37,11 @@ for key in data:
 print("Max %CV = " + str(max_cv))
 
 
-lns1 = ax1.plot(x, y_time, 'bo-', linewidth=2, label="time")
+lns1 = ax1.plot(x, y_time, 'bo-', markersize=12, linewidth=4, label="time")
 
 ax2 = ax1.twinx()
 
-lns2 = ax2.plot(x, y_mem, 'ro-', linewidth=2, label="memory")
+lns2 = ax2.plot(x, y_mem, 'rs-', markersize=12, linewidth=4, label="memory")
 
 x_index = 0
 for key in data:
@@ -61,6 +61,14 @@ for key in data:
 
 
 plt.xticks(x, [str(y) for y in data.keys()])
+ax1.set_yscale("log")
+yticks = [10,20, 50, 100, 200, 400, 800]
+ax1.set_yticks(yticks)
+ax1.set_yticklabels([str(t) for t in yticks])
+ax1.set_ylim([10, 830])
+ax2.set_ylim([0, 800])
+
+#print(ax1.get_yticks())
 
 ax1.set_xlabel("WRENCH versions",fontsize=fontsize+1)
 ax1.set_ylabel("Simulation time (sec)",fontsize=fontsize+1)
