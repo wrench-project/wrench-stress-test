@@ -20,14 +20,14 @@ namespace wrench {
         std::shared_ptr<JobManager> job_manager = this->createJobManager();
 
 
-        std::set<WorkflowTask *> tasks_to_do;
-        for (auto t : this->getWorkflow()->getTasks()) {
+        std::set<shared_ptr<WorkflowTask> > tasks_to_do;
+        for (auto t : this->workflow->getTasks()) {
             tasks_to_do.insert(t);
         }
-        std::set<WorkflowTask *> tasks_pending;
+        std::set<shared_ptr<WorkflowTask> > tasks_pending;
 
-        std::set<std::shared_ptr<ComputeService>> compute_services = this->getAvailableComputeServices<ComputeService>();
-        std::set<std::shared_ptr<StorageService>> storage_services = this->getAvailableStorageServices();
+        //REMOVE//std::set<std::shared_ptr<ComputeService>> compute_services = this->getAvailableComputeServices<ComputeService>();
+        //REMOVE//std::set<std::shared_ptr<StorageService>> storage_services = this->getAvailableStorageServices();
 
         unsigned long max_num_pending_tasks = 10;
 
@@ -38,11 +38,11 @@ namespace wrench {
             while ((tasks_to_do.size() > 0) and (tasks_pending.size() < max_num_pending_tasks)) {
 
                 WRENCH_INFO("Looking at scheduling another task");
-                WorkflowTask *to_submit = *(tasks_to_do.begin());
+                shared_ptr<WorkflowTask> to_submit = *(tasks_to_do.begin());
                 tasks_to_do.erase(to_submit);
                 tasks_pending.insert(to_submit);
 
-                WorkflowFile *output_file = *(to_submit->getOutputFiles().begin());
+                auto output_file = *(to_submit->getOutputFiles().begin());
                 // Pick a random compute
                 auto cs_it(compute_services.begin());
                 advance(cs_it, rand() % compute_services.size());
@@ -57,11 +57,11 @@ namespace wrench {
 
             }
 
-            std::shared_ptr <wrench::WorkflowExecutionEvent> event;
-            event = this->getWorkflow()->waitForNextExecutionEvent();
+            std::shared_ptr <wrench::ExecutionEvent> event;
+            event = this->waitForNextEvent();
             auto real_event = dynamic_cast<wrench::StandardJobCompletedEvent *>(event.get());
             if (real_event) {
-                WorkflowTask *completed_task = *(real_event->standard_job->getTasks().begin());
+                shared_ptr<WorkflowTask> completed_task = *(real_event->standard_job->getTasks().begin());
                 WRENCH_INFO("Task %s has completed", completed_task->getID().c_str());
                 if (tasks_to_do.size() % 10 == 0) {
                     //std::cerr << ".";

@@ -14,7 +14,7 @@ unsigned long Simulator::sequence_number = 0;
 int Simulator::main(int argc, char **argv) {
 
     // Create and initialize a simulation
-    auto simulation = new wrench::Simulation();
+    auto simulation = wrench::Simulation::createSimulation();
     simulation->init(&argc, argv);
 
     // Parse command-line arguments
@@ -67,13 +67,13 @@ int Simulator::main(int argc, char **argv) {
     // Create a File Registry Service
     std::shared_ptr<FileRegistryService> file_registry_service = simulation->add(new FileRegistryService("CS_host_0"));
 
+    shared_ptr<Workflow>workflow = createWorkflow(num_jobs);
+
     // Create the WMS
-    std::shared_ptr<WMS> wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services, file_registry_service, "CS_host_0"));
+    std::shared_ptr<ExecutionController> wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services,workflow, file_registry_service, "CS_host_0"));
 
-
-    // Create the Workflow
-    Workflow *workflow = createWorkflow(num_jobs);
-    wms->addWorkflow(workflow, 0);
+    simulation->getOutput().enableWorkflowTaskTimestamps(true);
+    simulation->getOutput().enableFileReadWriteCopyTimestamps(true);
 
     // Launch the simulation
     try {
@@ -88,7 +88,7 @@ int Simulator::main(int argc, char **argv) {
     return 0;
 }
 
-void Simulator::setupSimulationPlatform(Simulation *simulation, unsigned long num_cs, unsigned long num_ss) {
+void Simulator::setupSimulationPlatform(shared_ptr<Simulation> simulation, unsigned long num_cs, unsigned long num_ss) {
 
     // Create a the platform file
     std::string xml = "<?xml version='1.0'?>\n";
@@ -151,11 +151,11 @@ void Simulator::setupSimulationPlatform(Simulation *simulation, unsigned long nu
     }
 }
 
-wrench::Workflow *Simulator::createWorkflow(unsigned long num_jobs) {
-    Workflow *workflow = new Workflow();
+shared_ptr<Workflow> Simulator::createWorkflow(unsigned long num_jobs) {
+    shared_ptr<Workflow> workflow = Workflow::createWorkflow();
     // One task per job, all independent
     for (unsigned int i=0; i < num_jobs; i++) {
-        WorkflowTask *task = workflow->addTask("task_" + std::to_string(i), 10.0, 1, 1, 1.0);
+        shared_ptr<WorkflowTask> task = workflow->addTask("task_" + std::to_string(i), 10.0, 1, 1, 1.0);
         task->addOutputFile(workflow->addFile("file_" + std::to_string(i), 10000));
     }
     return workflow;

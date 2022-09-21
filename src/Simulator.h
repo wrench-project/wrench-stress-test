@@ -20,12 +20,11 @@ namespace wrench {
         double wasted_node_seconds = 0;
         double total_queue_wait_time = 0;
 
-
         int main(int argc, char **argv);
 
-        void setupSimulationPlatform(wrench::Simulation *simulation, unsigned long num_cs, unsigned long num_ss);
+        void setupSimulationPlatform(shared_ptr<wrench::Simulation> simulation, unsigned long num_cs, unsigned long num_ss);
 
-        wrench::Workflow *createWorkflow(unsigned long num_jobs);
+        shared_ptr<Workflow> createWorkflow(unsigned long num_jobs);
 
 
     };
