@@ -47,7 +47,8 @@ int Simulator::main(int argc, char **argv) {
     std::set<std::shared_ptr<StorageService>> storage_services;
     for (unsigned int i=0; i < num_ss; i++) {
         std::string hostname = "SS_host_" + std::to_string(i);
-        storage_services.insert(simulation->add<StorageService>(new SimpleStorageService(hostname, {"/"}, {}, {})));
+        storage_services.insert(simulation->add<StorageService>(SimpleStorageService::createSimpleStorageService(hostname, {"/"}, 
+                        {{wrench::SimpleStorageServiceProperty::BUFFER_SIZE, "0"}}, {})));
     }
     // Create the Network Proximity Services
     std::set<std::shared_ptr<NetworkProximityService>> network_proximity_services;

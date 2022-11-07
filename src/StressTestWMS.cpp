@@ -59,8 +59,7 @@ namespace wrench {
 
             std::shared_ptr <wrench::ExecutionEvent> event;
             event = this->waitForNextEvent();
-            auto real_event = dynamic_cast<wrench::StandardJobCompletedEvent *>(event.get());
-            if (real_event) {
+            if (auto real_event = dynamic_cast<wrench::StandardJobCompletedEvent *>(event.get())) {
                 shared_ptr<WorkflowTask> completed_task = *(real_event->standard_job->getTasks().begin());
                 WRENCH_INFO("Task %s has completed", completed_task->getID().c_str());
                 if (tasks_to_do.size() % 10 == 0) {
@@ -68,8 +67,10 @@ namespace wrench {
                 }
                 tasks_pending.erase(completed_task);
                 //job_manager->forgetJob(real_event->standard_job);
+            } else if (auto real_event = dynamic_cast<wrench::StandardJobFailedEvent *>(event.get())) {
+                throw std::runtime_error(real_event->failure_cause->toString());
             } else {
-                throw std::runtime_error("Unexpected Event!");
+                throw std::runtime_error("Got unexpected event!");
             }
         }
 
