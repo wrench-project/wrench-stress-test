@@ -2,7 +2,7 @@ FROM ubuntu:focal
 
 MAINTAINER Rafael Ferreira da Silva <silvarf@ornl.gov>
 
-ENV WRENCH_VERSION="2.1"
+ENV WRENCH_VERSION="2.2"
 
 #################################################
 # INSTALL WRENCH
@@ -11,6 +11,7 @@ ENV WRENCH_VERSION="2.1"
 USER root
 WORKDIR /tmp
 
+RUN apt-get clean
 RUN apt-get update
 
 RUN apt-get install -y wget g++ gcc 
@@ -43,7 +44,7 @@ RUN git clone https://framagit.org/simgrid/simgrid.git && cd simgrid && git chec
 RUN git clone https://github.com/wrench-project/wrench.git && cd wrench && git checkout  e4f01549a613add8b17c5bb8c3da8db009ea2446 && cmake . && make -j8 && sudo make install
 
 # install wrench-stress-test
-RUN git clone https://github.com/wrench-project/wrench-stress-test.git && cd wrench-stress-test && git checkout 2.1 && cmake . && make -j8 && sudo cp wrench_stress_test /usr/local/bin/wrench-stress-test
+RUN git clone https://github.com/wrench-project/wrench-stress-test.git && cd wrench-stress-test && git checkout master && cmake . && make -j8 && sudo cp wrench_stress_test /usr/local/bin/wrench-stress-test
 
 
 #################################################

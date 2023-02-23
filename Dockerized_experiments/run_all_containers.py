@@ -10,7 +10,7 @@ num_ps = 10
 num_jobs = 5000
 num_trials = 10
 
-dockerfiles=glob.glob("Dockerfile_wrench_stress_test_*")
+dockerfiles=sorted(glob.glob("Dockerfile_wrench_stress_test_*"))
 
 data = {}
 
