@@ -22,14 +22,16 @@ int Simulator::main(int argc, char **argv) {
     unsigned long num_cs;
     unsigned long num_ss;
     unsigned long num_nps;
+    unsigned long buffer_size;
 
-    if ((argc != 5) or
+    if ((argc != 6) or
         ((sscanf(argv[1], "%lu", &num_jobs) != 1) or (num_jobs < 1)) or
         ((sscanf(argv[2], "%lu", &num_cs) != 1)   or (num_cs < 1)) or
         ((sscanf(argv[3], "%lu", &num_ss) != 1)   or (num_ss < 1)) or
-        ((sscanf(argv[4], "%lu", &num_nps) != 1))
+        ((sscanf(argv[4], "%lu", &num_nps) != 1)) or
+        ((sscanf(argv[5], "%lu", &buffer_size) != 1))
             ) {
-        std::cerr << "Usage: " << argv[0] << " <num jobs> <num compute services> <num storage services> <num network proximity services>" << "\n";
+        std::cerr << "Usage: " << argv[0] << " <num jobs> <num compute services> <num storage services> <num network proximity services> <buffer size>" << "\n";
         exit(1);
     }
 
@@ -47,8 +49,7 @@ int Simulator::main(int argc, char **argv) {
     std::set<std::shared_ptr<StorageService>> storage_services;
     for (unsigned int i=0; i < num_ss; i++) {
         std::string hostname = "SS_host_" + std::to_string(i);
-        //storage_services.insert(simulation->add<StorageService>(SimpleStorageService::createSimpleStorageService(hostname, {"/"}, {{wrench::SimpleStorageServiceProperty::BUFFER_SIZE, "0"}}, {})));
-        storage_services.insert(simulation->add<StorageService>(SimpleStorageService::createSimpleStorageService(hostname, {"/"}, {}, {})));
+        storage_services.insert(simulation->add<StorageService>(SimpleStorageService::createSimpleStorageService(hostname, {"/"}, {{wrench::SimpleStorageServiceProperty::BUFFER_SIZE, std::to_string(buffer_size)}}, {})));
     }
     // Create the Network Proximity Services
     std::set<std::shared_ptr<NetworkProximityService>> network_proximity_services;
@@ -84,7 +85,8 @@ int Simulator::main(int argc, char **argv) {
         std::cerr << "Simulation failed: " << e.what() << "\n";
         exit(1);
     }
-    WRENCH_INFO("Simulation done!");
+    WRENCH_INFO("Simulation done: %.2lf\n", wrench::Simulation::getCurrentSimulatedDate());
+    std::cerr << wrench::Simulation::getCurrentSimulatedDate() << "\n";
 
     return 0;
 }
@@ -118,7 +120,7 @@ void Simulator::setupSimulationPlatform(shared_ptr<Simulation> simulation, unsig
     }
 
     // Network link
-    xml += "    <link id=\"wide_area_link\" bandwidth=\"10GBps\" latency=\"100ms\"/>\n";
+    xml += "    <link id=\"wide_area_link\" bandwidth=\"10GBps\" latency=\"100ns\"/>\n";
 
     for (int i=0; i < num_cs; i++) {
         for (int j=i; j < num_cs; j++) {
@@ -157,7 +159,7 @@ shared_ptr<Workflow> Simulator::createWorkflow(unsigned long num_jobs) {
     // One task per job, all independent
     for (unsigned int i=0; i < num_jobs; i++) {
         shared_ptr<WorkflowTask> task = workflow->addTask("task_" + std::to_string(i), 10.0, 1, 1, 1.0);
-        task->addOutputFile(workflow->addFile("file_" + std::to_string(i), 10000));
+        task->addOutputFile(workflow->addFile("file_" + std::to_string(i), 100000000));
     }
     return workflow;
 }

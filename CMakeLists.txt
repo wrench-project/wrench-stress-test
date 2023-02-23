@@ -24,6 +24,7 @@ add_executable(wrench_stress_test
 target_link_libraries(wrench_stress_test
         ${WRENCH_LIBRARY}
         ${SimGrid_LIBRARY}
+	#	-lprofiler
         )
 
 
