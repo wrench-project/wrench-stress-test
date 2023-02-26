@@ -24,14 +24,32 @@ int Simulator::main(int argc, char **argv) {
     unsigned long num_nps;
     unsigned long buffer_size;
 
-    if ((argc != 6) or
-        ((sscanf(argv[1], "%lu", &num_jobs) != 1) or (num_jobs < 1)) or
-        ((sscanf(argv[2], "%lu", &num_cs) != 1)   or (num_cs < 1)) or
-        ((sscanf(argv[3], "%lu", &num_ss) != 1)   or (num_ss < 1)) or
+    if (argc == 6) {
+        if (((sscanf(argv[1], "%lu", &num_jobs) != 1) or (num_jobs < 1)) or
+        ((sscanf(argv[2], "%lu", &num_cs) != 1) or (num_cs < 1)) or
+        ((sscanf(argv[3], "%lu", &num_ss) != 1) or (num_ss < 1)) or
         ((sscanf(argv[4], "%lu", &num_nps) != 1)) or
-        ((sscanf(argv[5], "%lu", &buffer_size) != 1))
-            ) {
-        std::cerr << "Usage: " << argv[0] << " <num jobs> <num compute services> <num storage services> <num network proximity services> <buffer size>" << "\n";
+        ((sscanf(argv[5], "%lu", &buffer_size) != 1))) {
+            std::cerr << "Usage: " << argv[0]
+                      << " <num jobs> <num compute services> <num storage services> <num network proximity services> [buffer size]"
+                      << "\n";
+            exit(1);
+        }
+    } else if (argc == 5) {
+        if (((sscanf(argv[1], "%lu", &num_jobs) != 1) or (num_jobs < 1)) or
+        ((sscanf(argv[2], "%lu", &num_cs) != 1) or (num_cs < 1)) or
+        ((sscanf(argv[3], "%lu", &num_ss) != 1) or (num_ss < 1)) or
+        ((sscanf(argv[4], "%lu", &num_nps) != 1))) {
+            std::cerr << "Usage: " << argv[0]
+                      << " <num jobs> <num compute services> <num storage services> <num network proximity services> [buffer size]"
+                      << "\n";
+            exit(1);
+        }
+        buffer_size = 10485760;
+    } else {
+        std::cerr << "Usage: " << argv[0]
+                  << " <num jobs> <num compute services> <num storage services> <num network proximity services> [buffer size]"
+                  << "\n";
         exit(1);
     }
 

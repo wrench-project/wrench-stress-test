@@ -41,11 +41,11 @@ ENV SIMGRID_VERSION="33"
 RUN git clone https://framagit.org/simgrid/simgrid.git && cd simgrid && git checkout 5a4efdbedd401027e9650c825fc09449c5bd8d3c && mkdir build && cd build && cmake .. && make -j12 && sudo make install && cd ../.. && rm -rf simgrid
 
 # install WRENCH
-RUN git clone https://github.com/wrench-project/wrench.git && cd wrench && git checkout  DOCKERID && cmake . && make -j8 && sudo make install
+RUN git clone https://github.com/wrench-project/wrench.git && cd wrench && git checkout  WRENCH_COMMIT_ID && cmake . && make -j8 && sudo make install
 #RUN git clone https://github.com/wrench-project/wrench.git && cd wrench && cmake . && make -j8 && sudo make install
 
 # install wrench-stress-test
-RUN git clone https://github.com/wrench-project/wrench-stress-test.git && cd wrench-stress-test && git checkout master && cmake . && make -j8 && sudo cp wrench_stress_test /usr/local/bin/wrench-stress-test
+RUN git clone https://github.com/wrench-project/wrench-stress-test.git && cd wrench-stress-test && git checkout WRENCHSTRESSTEST_COMMIT_ID && cmake . && make -j8 && sudo cp wrench_stress_test /usr/local/bin/wrench-stress-test
 
 
 #################################################
