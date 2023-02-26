@@ -2,7 +2,7 @@
 
 import sys
 import glob
-from subprocess import run, CalledProcessError
+import subprocess
 from datetime import datetime
 
 num_cs = 10
@@ -36,23 +36,20 @@ with open("./" + dockerfile_template) as file:
         outputfile.writelines(output_lines);
 
 # Build docker file
-cmd = "docker build -t " + dockerid + " -f " + dockerfile
-build_cmp = run(cmd.split(" "))
+cmd = "docker build -t " + dockerid + " -f " + "./" + dockerfile + " ."
+build_cmp = subprocess.run(cmd.split(" "), capture_output=False, stderr=subprocess.DEVNULL)
 build_cmp.check_returncode()
 
 # Run docker file
 cmd = "docker run -it --rm " + dockerid + " /usr/bin/time -v wrench-stress-test " + str(num_jobs) + " " + str(num_cs) + " " + str(num_ss) + " " + str(num_ps)
-run_cmd = run(cmd.split(" "), capture_output=True, text=True)
-if run_cmd.stdout == '':
-    raise CalledProcessError(run_cmd.returncode, run_cmd.args)
-
+run_cmd = subprocess.run(cmd.split(" "), capture_output=True, text=True)
 if run_cmd.stdout == '':
     raise CalledProcessError(run_cmd.returncode, run_cmd.args)
 run_cmd.check_returncode()
 
 elapsed = 0
 rss = 0
-for line in run_cmd.stdout:
+for line in run_cmd.stdout.splitlines():
     if "Elapsed (wall clock)" in line:
         tokens = line.split(":")
         elapsed =float(60.0 * float(tokens[-2]) + float(tokens[-1]))
