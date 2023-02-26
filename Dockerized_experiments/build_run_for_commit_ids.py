@@ -37,11 +37,13 @@ with open("./" + dockerfile_template) as file:
 
 # Build docker file
 cmd = "docker build -t " + dockerid + " -f " + "./" + dockerfile + " ."
+print(cmd)
 build_cmp = subprocess.run(cmd.split(" "), capture_output=False, stderr=subprocess.DEVNULL)
 build_cmp.check_returncode()
 
 # Run docker file
 cmd = "docker run -it --rm " + dockerid + " /usr/bin/time -v wrench-stress-test " + str(num_jobs) + " " + str(num_cs) + " " + str(num_ss) + " " + str(num_ps)
+print(cmd)
 run_cmd = subprocess.run(cmd.split(" "), capture_output=True, text=True)
 if run_cmd.stdout == '':
     raise CalledProcessError(run_cmd.returncode, run_cmd.args)
