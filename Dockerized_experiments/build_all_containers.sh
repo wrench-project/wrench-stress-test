@@ -7,6 +7,6 @@ DOCKERFILES=`ls Dockerfile_wrench_stress_test_*`
 for FILE in $DOCKERFILES; do
     CONTAINERNAME=`echo $FILE | sed "s/Dockerfile_//"`
     echo Building container $CONTAINERNAME
-    echo docker build -t $CONTAINERNAME . -f $FILE
+    echo docker build -t $CONTAINERNAME . -f $FILE 
     docker build -t $CONTAINERNAME . -f $FILE
 done

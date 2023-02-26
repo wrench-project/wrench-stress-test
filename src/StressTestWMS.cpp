@@ -66,7 +66,6 @@ namespace wrench {
                     //std::cerr << ".";
                 }
                 tasks_pending.erase(completed_task);
-                //job_manager->forgetJob(real_event->standard_job);
             } else if (auto real_event = dynamic_cast<wrench::StandardJobFailedEvent *>(event.get())) {
                 throw std::runtime_error(real_event->failure_cause->toString());
             } else {
