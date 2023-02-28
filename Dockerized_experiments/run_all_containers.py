@@ -30,6 +30,7 @@ for f in dockerfiles:
     if (maj_version == 1) and (min_version < 6) and (min_version > 1):
         command += " --wrench-no-log"
     if (maj_version == 2) and (min_version == 2):
+#        command += " 0"
         command += " 10485760"
     for trial in range(0,num_trials):
         output = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()
@@ -45,5 +46,5 @@ for f in dockerfiles:
     #print(now2 - now)
 
 # Sort
-data = dict(sorted(data.items(), key=lambda item: int(item[0][1:].split(".")[0]) * 1000 + int(item[0][1:].split(".")[1])))["v2.2"]
+data = dict(sorted(data.items(), key=lambda item: int(item[0][1:].split(".")[0]) * 1000 + int(item[0][1:].split(".")[1])))
 print(data)
