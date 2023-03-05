@@ -67,7 +67,7 @@ namespace wrench {
                 }
                 // Erase the task's output file
                 auto file_to_delete = *(completed_task->getOutputFiles().begin());
-                StorageService::deleteFileAtLocation(real_event->standard_job->getFileLocations()[file_to_delete].at(0));
+                StorageService::removeFileAtLocation(real_event->standard_job->getFileLocations()[file_to_delete].at(0));
 
                 // Erase the pending task
                 tasks_pending.erase(completed_task);
