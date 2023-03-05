@@ -66,7 +66,8 @@ namespace wrench {
                     //std::cerr << ".";
                 }
                 // Erase the task's output file
-                StorageService::deleteFileAtLocation(real_event->standard_job->getFileLocations()[completed_task->getOutputFiles().begin()]);
+                auto file_to_delete = *(completed_task->getOutputFiles().begin());
+                StorageService::deleteFileAtLocation(real_event->standard_job->getFileLocations()[file_to_delete].at(0));
 
                 // Erase the pending task
                 tasks_pending.erase(completed_task);
