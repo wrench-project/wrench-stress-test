@@ -65,6 +65,10 @@ namespace wrench {
                 if (tasks_to_do.size() % 10 == 0) {
                     //std::cerr << ".";
                 }
+                // Erase the task's output file
+                StorageService::deleteFileAtLocation(real_event->standard_job->getFileLocations()[completed_task->getOutputFiles().begin()]);
+
+                // Erase the pending task
                 tasks_pending.erase(completed_task);
             } else if (auto real_event = dynamic_cast<wrench::StandardJobFailedEvent *>(event.get())) {
                 throw std::runtime_error(real_event->failure_cause->toString());
