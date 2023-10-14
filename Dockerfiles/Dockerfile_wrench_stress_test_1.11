@@ -62,3 +62,8 @@ WORKDIR /home/wrench
 ENV CXX="g++-9" CC="gcc-9"
 ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
 
+
+# Set wrench-stress-test-specific enviornment variables
+ENV WRENCH_LOGGING=""
+ENV WRENCH_BUFFERSIZE=""
+
