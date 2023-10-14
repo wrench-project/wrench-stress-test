@@ -8,8 +8,8 @@ from datetime import datetime
 num_cs = 10
 num_ss = 10
 num_ps = 0
-num_jobs = 20000
-num_trials = 1
+num_jobs = 4000
+num_trials = 2
 
 def run_experiments(images):
     data = {}
@@ -21,15 +21,20 @@ def run_experiments(images):
         times=[]
         mems=[]
 
+        # Get the wrench firs arg
+        command = "docker run -it --rm " + image + " bash -c 'echo $WRENCH_FIRST_ARG'"
+        wrench_first_arg = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()[0]
+
         # Get the wrench logging env variable
         command = "docker run -it --rm " + image + " bash -c 'echo $WRENCH_LOGGING'"
         wrench_logging = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()[0]
 
-        # Get tne wrench buffersize env variable
+        # Get the wrench buffersize env variable
         command = "docker run -it --rm " + image + " bash -c 'echo $WRENCH_BUFFERSIZE'"
         wrench_buffersize = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()[0]
         
-        command = "docker run -it --rm " + image + " /usr/bin/time -v wrench-stress-test " + str(num_jobs) + " " + str(num_cs) + " " + str(num_ss) + " " + str(num_ps) + " " + wrench_logging + " " + wrench_buffersize
+        command = "docker run -it --rm " + image + " /usr/bin/time -v wrench-stress-test " + wrench_first_arg + " " + str(num_jobs) + " " + str(num_cs) + " " + str(num_ss) + " " + str(num_ps) + " " + wrench_logging + " " + wrench_buffersize
+        print("ABOUT TO RUN: " + command)
 
         for trial in range(0,num_trials):
             output = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()
@@ -43,7 +48,6 @@ def run_experiments(images):
         data[version_string] = [times, mems]
     
     # Sort
-    data = dict(sorted(data.items(), key=lambda item: int(item[0][1:].split(".")[0]) * 1000 + int(item[0][1:].split(".")[1])))
     print(data)
 
 

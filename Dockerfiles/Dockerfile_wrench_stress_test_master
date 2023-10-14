@@ -1,6 +1,6 @@
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
-MAINTAINER Rafael Ferreira da Silva <silvarf@ornl.gov>
+MAINTAINER Henri Casanova <henric@hawaii.edu>
 
 ENV WRENCH_VERSION="2.2"
 
@@ -28,10 +28,11 @@ RUN apt-get install -y time
 
 
 # install pugixml
-RUN wget https://github.com/zeux/pugixml/releases/download/v1.8.1/pugixml-1.8.1.tar.gz && tar -xf pugixml-1.8.1.tar.gz && cd pugixml-1.8 && cmake . && make -j8 && sudo make install && cd .. && rm -rf pugixml-1.8*
+#RUN wget https://github.com/zeux/pugixml/releases/download/v1.8.1/pugixml-1.8.1.tar.gz && tar -xf pugixml-1.8.1.tar.gz && cd pugixml-1.8 && cmake . && make -j8 && sudo make install && cd .. && rm -rf pugixml-1.8*
 
 # install json for modern c++
-RUN wget https://github.com/nlohmann/json/archive/v3.7.0.tar.gz && tar -xf v3.7.0.tar.gz && cd json-3.7.0 && cmake . && make -j8 && $SUDO make install && cd .. && rm -rf v3.7.0* json-3.7.0
+RUN wget https://github.com/nlohmann/json/archive/refs/tags/v3.10.5.tar.gz && tar -xf v3.10.5.tar.gz && cd json-3.10.5 && cmake . && make -j4 && make install && cd .. && rm -rf v3.10.5* json-3.10.5
+
 
 # install googletest
 #RUN wget https://github.com/google/googletest/archive/release-1.8.0.tar.gz && tar xf release-1.8.0.tar.gz && cd googletest-release-1.8.0/googletest && cmake . && make -j8 && sudo make install && cd ../.. && rm -rf release-1.8.0.tar.gz googletest-release-1.8.0
@@ -42,7 +43,7 @@ RUN wget https://framagit.org/simgrid/simgrid/-/archive/v3.${SIMGRID_VERSION}/si
 
 
 # install WRENCH
-RUN git clone https://github.com/wrench-project/wrench.git && cd wrench && git checkout master && cmake . && make -j8 && sudo make install
+RUN git clone https://github.com/wrench-project/wrench.git && cd wrench && git checkout master && mkdir build && cd build && cmake .. && make -j8 && sudo make install && sudo cp ./benchmark/wrench-stress-test /usr/local/bin
 
 
 # install wrench-stress-test
@@ -66,5 +67,6 @@ ENV CXX="g++-9" CC="gcc-9"
 ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
 
 # Set wrench-stress-test-specific enviornment variables
+ENV WRENCH_FIRST_ARG="WORKFLOW"
 ENV WRENCH_LOGGING=""
 ENV WRENCH_BUFFERSIZE=" 10485760"
