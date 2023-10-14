@@ -8,7 +8,7 @@ from datetime import datetime
 num_cs = 10
 num_ss = 10
 num_ps = 0
-num_jobs = 4000
+num_jobs = 10000
 num_trials = 2
 
 def run_experiments(images):
@@ -16,7 +16,6 @@ def run_experiments(images):
     
     for image in images:
     
-        sys.stderr.write("Running container for image " + image + "\n")
         version_string = image.split("_")[-1]
         times=[]
         mems=[]
@@ -34,7 +33,7 @@ def run_experiments(images):
         wrench_buffersize = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()[0]
         
         command = "docker run -it --rm " + image + " /usr/bin/time -v wrench-stress-test " + wrench_first_arg + " " + str(num_jobs) + " " + str(num_cs) + " " + str(num_ss) + " " + str(num_ps) + " " + wrench_logging + " " + wrench_buffersize
-        print("ABOUT TO RUN: " + command)
+        sys.stderr.write("Running " + command + " (" + str(num_trials) + " times) ...\n")
 
         for trial in range(0,num_trials):
             output = subprocess.check_output(command, shell=True).decode('utf-8').splitlines()
@@ -52,7 +51,7 @@ def run_experiments(images):
 
 
 if __name__ == "__main__":
-    run_experiments(sys.argv[1:-1])
+    run_experiments(sys.argv[1:len(sys.argv)])
     
 
 
