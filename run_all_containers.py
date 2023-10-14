@@ -8,8 +8,18 @@ from datetime import datetime
 num_cs = 10
 num_ss = 10
 num_ps = 0
-num_jobs = 10000
+num_jobs = 100
 num_trials = 2
+
+def key_sorting(item):
+    if item[0] == "master":
+        return 100000
+    elif item[0] == "experimental":
+        return 1000000
+    else:
+        major = item[0].split(".")[0]
+        minor = item[0].split(".")[1]
+        return int(major) * 100 + int(minor)
 
 def run_experiments(images):
     data = {}
@@ -46,6 +56,8 @@ def run_experiments(images):
                     mems.append(float(tokens[-1]) / 1024.0)
         data[version_string] = [times, mems]
     
+    data = dict(sorted(data.items(), key= key_sorting))
+
     # Sort
     print(data)
 
