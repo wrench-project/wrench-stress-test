@@ -14,7 +14,9 @@ default:
 
 build:
 	@for dockerfile in ${DOCKERFILES} ; do \
+	echo "*********" ; \
     	echo "** Building Docker image for $${dockerfile} **" ; \
+	echo "*********" ; \
 	image_name=wrench_benchmark_`echo $${dockerfile} | sed "s/.*test_//"` ; \
 	docker build -t $${image_name} -f $${dockerfile} . ; \
 	done	
