@@ -8,7 +8,7 @@ from datetime import datetime
 num_cs = 10
 num_ss = 10
 num_ps = 0
-num_jobs = 100
+num_jobs = 10000
 num_trials = 2
 
 def key_sorting(item):
