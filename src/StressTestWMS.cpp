@@ -42,6 +42,7 @@ namespace wrench {
                 tasks_to_do.erase(to_submit);
                 tasks_pending.insert(to_submit);
 
+                auto input_file = *(to_submit->getInputFiles().begin());
                 auto output_file = *(to_submit->getOutputFiles().begin());
                 // Pick a random compute
                 auto cs_it(compute_services.begin());
@@ -52,7 +53,7 @@ namespace wrench {
                 advance(ss_it, rand() % storage_services.size());
                 auto target_ss = *ss_it;
 
-                auto job = job_manager->createStandardJob(to_submit, {std::make_pair(output_file, wrench::FileLocation::LOCATION(target_ss))});
+                auto job = job_manager->createStandardJob(to_submit, {{output_file, wrench::FileLocation::LOCATION(target_ss)}, {input_file, wrench::FileLocation::LOCATION(target_ss)}});
                 job_manager->submitJob(job, target_cs);
 
             }
