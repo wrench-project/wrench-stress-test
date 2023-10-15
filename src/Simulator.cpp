@@ -71,7 +71,7 @@ int Simulator::main(int argc, char **argv) {
 
     // Stage output files
      for (auto const &task: workflow->getTasks()) {
-	for (auto const &f : task.second->getInputFiles()) {
+	for (auto const &f : task->getInputFiles()) {
         	for (auto const &ss : storage_services) {
         		simulation->stageFile(f, ss);
 		}
