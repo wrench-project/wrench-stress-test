@@ -70,9 +70,11 @@ int Simulator::main(int argc, char **argv) {
     shared_ptr<Workflow>workflow = createWorkflow(num_jobs);
 
     // Stage output files
-     for (auto const &f: workflow->getInputFiles()) {
-        for (auto const &ss : storage_services) {
-        	simulation->stageFile(f, ss);
+     for (auto const &task: workflow->getTasks()) {
+	for (auto const &f : task.second->getInputFiles()) {
+        	for (auto const &ss : storage_services) {
+        		simulation->stageFile(f, ss);
+		}
 	}
     }
 
