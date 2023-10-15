@@ -69,6 +69,11 @@ int Simulator::main(int argc, char **argv) {
 
     shared_ptr<Workflow>workflow = createWorkflow(num_jobs);
 
+    // Stage output files
+     for (auto const &f: workflow->getInputFiles()) {
+        simulation->stageFile(f, storage_service);
+    }
+
     // Create the WMS
     std::shared_ptr<ExecutionController> wms = simulation->add(new StressTestWMS(compute_services, storage_services, network_proximity_services,workflow, file_registry_service, "CS_host_0"));
 
@@ -155,8 +160,9 @@ shared_ptr<Workflow> Simulator::createWorkflow(unsigned long num_jobs) {
     shared_ptr<Workflow> workflow = Workflow::createWorkflow();
     // One task per job, all independent
     for (unsigned int i=0; i < num_jobs; i++) {
-        shared_ptr<WorkflowTask> task = workflow->addTask("task_" + std::to_string(i), 10.0, 1, 1, 1.0);
-        task->addOutputFile(workflow->addFile("file_" + std::to_string(i), 10000));
+        shared_ptr<WorkflowTask> task = workflow->addTask("task_" + std::to_string(i), 1000.0, 1, 1, 1.0);
+        task->addInputFile(workflow->addFile("infile_" + std::to_string(i), 100000000));
+        task->addOutputFile(workflow->addFile("oufile_" + std::to_string(i), 100000000));
     }
     return workflow;
 }
