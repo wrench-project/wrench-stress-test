@@ -46,10 +46,6 @@ RUN wget https://framagit.org/simgrid/simgrid/-/archive/v3.${SIMGRID_VERSION}/si
 # install WRENCH
 RUN wget https://github.com/wrench-project/wrench/archive/refs/tags/v2.2.tar.gz && tar -xzf v2.2.tar.gz && cd wrench-2.2 && cmake . && make -j8 && sudo make install && sudo cp ./benchmark/wrench-stress-test /usr/local/bin/
 
-# install wrench-stress-test
-#RUN git clone https://github.com/wrench-project/wrench-stress-test.git && cd wrench-stress-test && git checkout master && cmake . && make -j8 && sudo cp wrench_stress_test /usr/local/bin/wrench-stress-test
-
-
 #################################################
 # WRENCH's user
 #################################################
