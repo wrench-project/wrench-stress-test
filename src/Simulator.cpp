@@ -107,7 +107,7 @@ void Simulator::setupSimulationPlatform(shared_ptr<Simulation> simulation, unsig
     for (int i=0; i < num_cs; i++) {
         xml += "    <host id=\"CS_host_" + std::to_string(i) + "\" speed=\"1f\" core=\"16\">\n";
         xml += "      <disk id=\"hard_drive_CS_" + std::to_string(i) + "\" read_bw=\"100MBps\" write_bw=\"100MBps\">\n";
-        xml += "        <prop id=\"size\" value=\"5000GiB\"/>\n";
+        xml += "        <prop id=\"size\" value=\"50000000GiB\"/>\n";
         xml += "        <prop id=\"mount\" value=\"/\"/>\n";
         xml += "      </disk>\n";
         xml += "     </host>\n";
@@ -117,7 +117,7 @@ void Simulator::setupSimulationPlatform(shared_ptr<Simulation> simulation, unsig
     for (int i=0; i < num_ss; i++) {
         xml += "    <host id=\"SS_host_" + std::to_string(i) + "\" speed=\"1f\" core=\"16\">\n";
         xml += "      <disk id=\"hard_drive_SS_" + std::to_string(i) + "\" read_bw=\"100MBps\" write_bw=\"100MBps\">\n";
-        xml += "        <prop id=\"size\" value=\"5000GiB\"/>\n";
+        xml += "        <prop id=\"size\" value=\"50000000GiB\"/>\n";
         xml += "        <prop id=\"mount\" value=\"/\"/>\n";
         xml += "      </disk>\n";
         xml += "    </host>\n";
