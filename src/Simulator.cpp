@@ -71,7 +71,9 @@ int Simulator::main(int argc, char **argv) {
 
     // Stage output files
      for (auto const &f: workflow->getInputFiles()) {
-        simulation->stageFile(f, storage_service);
+        for (auto const &ss : storage_sercices) {
+        	simulation->stageFile(f, ss);
+	}
     }
 
     // Create the WMS
