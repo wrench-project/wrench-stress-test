@@ -16,6 +16,8 @@ def key_sorting(item):
         return 100000
     elif item[0] == "experimental":
         return 1000000
+    elif item[0] == "experimental_no_deque":
+        return 10000000
     else:
         major = item[0].split(".")[0]
         minor = item[0].split(".")[1]
