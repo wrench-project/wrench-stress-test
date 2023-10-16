@@ -9,7 +9,7 @@ num_cs = 10
 num_ss = 10
 num_ps = 0
 num_jobs = 1000
-num_trials = 2
+num_trials = 5
 
 def key_sorting(item):
     if item[0] == "master":
