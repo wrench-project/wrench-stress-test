@@ -52,7 +52,7 @@ namespace wrench {
                 advance(ss_it, rand() % storage_services.size());
                 auto target_ss = *ss_it;
 
-                auto job = job_manager->createStandardJob(to_submit, {std::make_pair(output_file, wrench::FileLocation::LOCATION(target_ss))});
+                auto job = job_manager->createStandardJob(to_submit, {{output_file, wrench::FileLocation::LOCATION(target_ss)}, {input_file, wrench::FileLocation::LOCATION(target_ss)}});
                 job_manager->submitJob(job, target_cs);
 
             }
