@@ -75,6 +75,16 @@ int Simulator::main(int argc, char **argv) {
     Workflow *workflow = createWorkflow(num_jobs);
     wms->addWorkflow(workflow, 0);
 
+    // Stage input files
+     for (auto const &task: workflow->getTasks()) {
+        for (auto const &f : task->getInputFiles()) {
+                for (auto const &ss : storage_services) {
+                        simulation->stageFile(f, ss);
+                }
+        }
+    }
+
+
     // Launch the simulation
     try {
         WRENCH_INFO("Launching simulation!");
