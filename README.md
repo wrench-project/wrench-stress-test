@@ -9,4 +9,4 @@ needed.  Furthermore, this repo contains the scripts/Dockerfiles needed to
 run all kinds of benchmark experiments with pre-2.2 and post-2.2 
 versions of WRENCH. 
 
-Note that the benchmark for versions < 2.0 runs with a different setup than >= 2.0 (fewer files, smaller files, smaller tasks)
+Note that the benchmark for versions < 1.11 runs with a different setup (fewer files, smaller files, smaller tasks)
