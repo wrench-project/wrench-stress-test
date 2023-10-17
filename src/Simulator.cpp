@@ -166,7 +166,7 @@ shared_ptr<Workflow> Simulator::createWorkflow(unsigned long num_jobs) {
     // One task per job, all independent
     for (unsigned int i=0; i < num_jobs; i++) {
         shared_ptr<WorkflowTask> task = workflow->addTask("task_" + std::to_string(i), 1000.0, 1, 1, 1.0);
-        task->addOutputFile(workflow->addFile("infile_" + std::to_string(i), 100000000));
+        task->addInputFile(workflow->addFile("infile_" + std::to_string(i), 100000000));
         task->addOutputFile(workflow->addFile("outfile_" + std::to_string(i), 100000000));
     }
     return workflow;

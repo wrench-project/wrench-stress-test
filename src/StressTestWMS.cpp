@@ -42,6 +42,7 @@ namespace wrench {
                 tasks_to_do.erase(to_submit);
                 tasks_pending.insert(to_submit);
 
+                auto input_file = *(to_submit->getInputFiles().begin());
                 auto output_file = *(to_submit->getOutputFiles().begin());
                 // Pick a random compute
                 auto cs_it(compute_services.begin());
