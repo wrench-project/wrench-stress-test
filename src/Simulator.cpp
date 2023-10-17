@@ -75,6 +75,15 @@ int Simulator::main(int argc, char **argv) {
     Workflow *workflow = createWorkflow(num_jobs);
     wms->addWorkflow(workflow, 0);
 
+    // Stage output files
+     for (auto const &task: workflow->getTasks()) {
+        for (auto const &f : task->getInputFiles()) {
+                for (auto const &ss : storage_services) {
+                        simulation->stageFile(f, ss);
+                }
+        }
+    }
+
     // Launch the simulation
     try {
         WRENCH_INFO("Launching simulation!");
@@ -155,8 +164,9 @@ wrench::Workflow *Simulator::createWorkflow(unsigned long num_jobs) {
     Workflow *workflow = new Workflow();
     // One task per job, all independent
     for (unsigned int i=0; i < num_jobs; i++) {
-        WorkflowTask *task = workflow->addTask("task_" + std::to_string(i), 10.0, 1, 1, 1.0);
-        task->addOutputFile(workflow->addFile("file_" + std::to_string(i), 10000));
+        WorkflowTask *task = workflow->addTask("task_" + std::to_string(i), 1000.0, 1, 1, 1.0);
+        task->addInputFile(workflow->addFile("infile_" + std::to_string(i), 100000000));
+        task->addOutputFile(workflow->addFile("outfile_" + std::to_string(i), 100000000));
     }
     return workflow;
 }
