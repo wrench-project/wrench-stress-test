@@ -73,7 +73,6 @@ int Simulator::main(int argc, char **argv) {
      for (auto const &task: workflow->getTasks()) {
 	for (auto const &f : task->getInputFiles()) {
         	for (auto const &ss : storage_services) {
-			std::cerr << "STRAING: " << f->getID() << " on " << ss->getName() << "\n";
         		simulation->stageFile(f, ss);
 		}
 	}
