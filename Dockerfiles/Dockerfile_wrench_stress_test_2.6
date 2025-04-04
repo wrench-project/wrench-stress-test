@@ -45,7 +45,7 @@ RUN wget https://framagit.org/simgrid/simgrid/-/archive/v${SIMGRID_VERSION}/simg
 RUN wget https://github.com/simgrid/file-system-module/archive/refs/tags/v${FSMOD_VERSION}.tar.gz && tar -xf  v${FSMOD_VERSION}.tar.gz&& cd file-system-module-${FSMOD_VERSION} && cmake . && make -j8 && sudo make install && cd .. && rm -rf file-system-module-${FSMOD_VERSION}
 
 # install WRENCH
-RUN wget https://github.com/wrench-project/wrench/archive/refs/tags/v${WRENCH_VERSION}.tar.gz && tar -xzf v${WRENCH_VERSION}.tar.gz && cd wrench-${WRENCH_VERSION} && cmake . && make -j8 && sudo make install
+RUN wget https://github.com/wrench-project/wrench/archive/refs/tags/v${WRENCH_VERSION}.tar.gz && tar -xzf v${WRENCH_VERSION}.tar.gz && cd wrench-${WRENCH_VERSION} && cmake . && make -j8 && sudo make install && cp benchmark/wrench-stress-test /usr/local/bin/
 
 
 #################################################
