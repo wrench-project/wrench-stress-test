@@ -3,6 +3,8 @@ FROM ubuntu:jammy
 MAINTAINER Henri Casanova <henric@hawaii.edu>
 
 
+ENV SIMGRID_VERSION="3.34"
+ENV FSMOD_VERSION="0.3"
 ENV WRENCH_VERSION="2.2"
 
 #################################################
@@ -12,7 +14,6 @@ ENV WRENCH_VERSION="2.2"
 USER root
 WORKDIR /tmp
 
-RUN apt-get clean
 RUN apt-get update
 
 RUN apt-get install -y wget g++ gcc 
@@ -39,12 +40,12 @@ RUN wget https://github.com/nlohmann/json/archive/refs/tags/v3.10.5.tar.gz && ta
 #RUN wget https://github.com/google/googletest/archive/release-1.8.0.tar.gz && tar xf release-1.8.0.tar.gz && cd googletest-release-1.8.0/googletest && cmake . && make -j8 && sudo make install && cd ../.. && rm -rf release-1.8.0.tar.gz googletest-release-1.8.0
 
 # instal SIMGRID
-ENV SIMGRID_VERSION="34"
-RUN wget https://framagit.org/simgrid/simgrid/-/archive/v3.${SIMGRID_VERSION}/simgrid-v3.${SIMGRID_VERSION}.tar.gz && tar -xf simgrid-v3.${SIMGRID_VERSION}.tar.gz && cd simgrid-v3.${SIMGRID_VERSION} && cmake . && make -j8 && sudo make install && cd .. && rm -rf simgrid-v3.${SIMGRID_VERSION}*
+RUN wget https://framagit.org/simgrid/simgrid/-/archive/v3${SIMGRID_VERSION}/simgrid-v.${SIMGRID_VERSION}.tar.gz && tar -xf simgrid-v.${SIMGRID_VERSION}.tar.gz && cd simgrid-v.${SIMGRID_VERSION} && cmake . && make -j8 && sudo make install && cd .. && rm -rf simgrid-v3.${SIMGRID_VERSION}*
 
 
 # install WRENCH
-RUN wget https://github.com/wrench-project/wrench/archive/refs/tags/v2.2.tar.gz && tar -xzf v2.2.tar.gz && cd wrench-2.2 && cmake . && make -j8 && sudo make install && sudo cp ./benchmark/wrench-stress-test /usr/local/bin/
+RUN wget https://github.com/wrench-project/wrench/archive/refs/tags/v${WRENCH_VERSION}.tar.gz && tar -xzf v${WRENCH_VERSION}.tar.gz && cd wrench-${WRENCH_VERSION} && cmake . && make -j8 && sudo make install
+
 
 #################################################
 # WRENCH's user

@@ -1,7 +1,7 @@
 .NOTPARALLEL:
 
 
-TO_EXCLUDE = 1.0 1.1 1.2 1.3 1.4 1.5 1.6 
+TO_EXCLUDE = 1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9 1.10 1.11 2.0 2.1 2.2 2.4 2.5 2.6
 
 COMMAND = find ./Dockerfiles -name 'Dockerfile_*' $(foreach version, $(TO_EXCLUDE), -not -name 'Dockerfile_*$(version)')
 DOCKERFILES := $(shell $(COMMAND))
@@ -19,6 +19,7 @@ build:
 	echo "*********" ; \
 	image_name=wrench_benchmark_`echo $${dockerfile} | sed "s/.*test_//"` ; \
 	echo docker build -t $${image_name} -f $${dockerfile} . ; \
+	set -e ; \
 	docker build -t $${image_name} -f $${dockerfile} . ; \
 	done	
 
